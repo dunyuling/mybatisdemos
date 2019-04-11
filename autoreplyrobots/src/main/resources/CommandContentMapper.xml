@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rc.autoreplyrobots.model.CommandContent">
+    <resultMap id="CommandContentResult" type="com.rc.autoreplyrobots.model.CommandContent">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="commandContent" jdbcType="VARCHAR" property="commandContent"/>
+        <result column="command_id" jdbcType="INTEGER" property="commandId"/>
+    </resultMap>
+
+    <!--<delete id="deleteOne" parameterType="com.rc.autoreplyrobots.model.CommandContentContent">-->
+    <!--delete from-->
+    <!--</delete>-->
+
+    <insert id="insertOne" parameterType="com.rc.autoreplyrobots.model.CommandContent">
+       insert into commandcontent(content,command_id) values(#{content},#{commandId})
+    </insert>
+</mapper>

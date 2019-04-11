@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rc.autoreplyrobots.model.Message">
+    <resultMap id="MessageResult" type="com.rc.autoreplyrobots.model.Message">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="command" jdbcType="VARCHAR" property="command" />
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="commandContent" jdbcType="VARCHAR" property="commandContent"/>
+    </resultMap>
+
+    <select id="queryMessageList" parameterType="com.rc.autoreplyrobots.model.Message" resultMap="MessageResult">
+        select id, command, description, commandContent from message where 1 = 1
+        <!-- 以下两种写法都是正确的 -->
+        <!--<if test="name != null &amp;&amp; !&quot;&quot;.equals(name.trim())">-->
+        <if test="command != null  and !''.equals(command.trim())">
+            and name = #{name}
+        </if>
+        <if test="description != null &amp;&amp; !&quot;&quot;.equals(description.trim())">
+            and description like concat('%', #{description}, '%')
+        </if>
+    </select>
+
+    <delete id="deleteOne"  parameterType="int">
+        delete from message where id = #{_parameter}
+    </delete>
+    
+    <delete id="deleteBatch" parameterType="java.util.List">
+        delete from message where id in (
+          <foreach collection="list" item="idItem" separator=",">
+            #{idItem}
+          </foreach>
+        )
+    </delete>
+</mapper>
