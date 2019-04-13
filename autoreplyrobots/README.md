@@ -113,4 +113,20 @@
     通过本次学习只是对于mybatis有了一个基本的概念，还有很多东西没有掌握。虽然很多年前都已经
     用过了，但由于是在别人已有的基础上的应用，而自己并没有系统的进行学习，导致很多年后，重新
     应用时，困难重重。故每一项技术都要经过自己切实的理解原理，应用实践才能够真正得掌握。
+    
+##接口式编程
+    * 模拟动态代理
+    + 要求
+        * Main
+        * interface-> XInterface
+        * MapperProxy.invoke implements InvokeHandler
+            在invoke方法中打印出(接口全名称与方法名)
+        * SqlSession->getMapper()(XInterface)
+            在getMapper()创建代理实例并做强转 
+    + 实现
+        * com.rc.autoreplyrobots.test 为从课程下载的源码
+        * com.rc.autoreplyrobots.dynamicproxytest为自己的实现
+        
+           
+    
                                                                         

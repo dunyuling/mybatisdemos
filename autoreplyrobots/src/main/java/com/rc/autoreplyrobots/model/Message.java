@@ -20,6 +20,11 @@ public class Message {
     public Message() {
     }
 
+    public Message(String command, String description) {
+        this.command = command;
+        this.description = description;
+    }
+
     public Message(int id, String command, String description, String content) {
         this.id = id;
         this.command = command;
@@ -57,5 +62,15 @@ public class Message {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", command='" + command + '\'' +
+                ", description='" + description + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

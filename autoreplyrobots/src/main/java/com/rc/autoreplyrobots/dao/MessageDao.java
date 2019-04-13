@@ -80,7 +80,7 @@ public class MessageDao {
         message.setCommand(command);
         message.setDescription(description);
 
-        List<Message> messages = sqlSession.selectList("com.rc.autoreplyrobots.model.Message.queryMessageList",message);
+        List<Message> messages = sqlSession.selectList("com.rc.autoreplyrobots.mapper.MessageMapper.queryMessageList",message);
         sqlSession.close();
         return messages;
     }
@@ -94,7 +94,7 @@ public class MessageDao {
      **/
     public void deleteOne(int id) throws IOException {
         SqlSession sqlSession = DBAccess.getSqlSession();
-        sqlSession.delete("com.rc.autoreplyrobots.model.Message.deleteOne",id);
+        sqlSession.delete("com.rc.autoreplyrobots.mapper.MessageMapper.deleteOne",id);
         //必须提交事务
         sqlSession.commit();
         sqlSession.close();
@@ -109,7 +109,7 @@ public class MessageDao {
      **/
     public void deleteBatch(List<Integer> idList) throws IOException {
         SqlSession sqlSession = DBAccess.getSqlSession();
-        sqlSession.delete("com.rc.autoreplyrobots.model.Message.deleteBatch",idList);
+        sqlSession.delete("com.rc.autoreplyrobots.mapper.MessageMapper.deleteBatch",idList);
         //必须提交事务
         sqlSession.commit();
         sqlSession.close();

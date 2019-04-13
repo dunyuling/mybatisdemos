@@ -11,15 +11,15 @@ CREATE TABLE `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `command` varchar(16) DEFAULT NULL comment '指令',
   `description` varchar(32) DEFAULT NULL comment '描述',
-  `commandContent` varchar(2048) DEFAULT NULL comment '内容',
+  `content` varchar(2048) DEFAULT NULL comment '内容',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-insert into message values(1, 'a', 'a desc', 'a commandContent');
-insert into message values(2, 'b', 'b desc', 'b commandContent');
-insert into message values(3, 'c', 'c desc', 'c commandContent');
-insert into message values(4, 'd', 'd desc', 'd commandContent');
-insert into message values(5, 'e', 'e desc', 'e commandContent');
+insert into message values(1, 'a', 'a desc', 'a content');
+insert into message values(2, 'b', 'b desc', 'b content');
+insert into message values(3, 'c', 'c desc', 'c content');
+insert into message values(4, 'd', 'd desc', 'd content');
+insert into message values(5, 'e', 'e desc', 'e content');
 
 
 #为了解决一个命令有多个对应内容的情况，将message表拆分为command表和content表

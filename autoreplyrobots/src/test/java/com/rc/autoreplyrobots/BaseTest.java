@@ -5,18 +5,32 @@ import com.rc.autoreplyrobots.common.StatusCode;
 import com.rc.autoreplyrobots.db.DBAccess;
 import com.rc.autoreplyrobots.response.BaseResponse;
 import org.apache.ibatis.session.SqlSession;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 /**
  * @ClassName BaseTest
- * @Description TODO
+ * @Description 测试基类
  * @Author liux
  * @Date 19-4-10 下午3:37
  * @Version 1.0
  */
 public class BaseTest {
+
+    protected SqlSession sqlSession;
+
+    @Before
+    public void init() throws IOException {
+        sqlSession = DBAccess.getSqlSession();
+    }
+
+    @After
+    public void tearDown() {
+        sqlSession.close();
+    }
 
     @Test
     public void test() {
@@ -49,7 +63,7 @@ public class BaseTest {
         BaseResponse baseResponse = new BaseResponse(StatusCode.Success);
         String jsonStr = JSON.toJSONString(baseResponse);
         System.out.println(jsonStr);
-        baseResponse = JSON.parseObject(jsonStr,BaseResponse.class);
+        baseResponse = JSON.parseObject(jsonStr, BaseResponse.class);
         System.out.println(baseResponse);
     }
 }
