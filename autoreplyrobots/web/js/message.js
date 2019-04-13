@@ -6,7 +6,7 @@ $(function () {
     deleteBatch();
 
     // alert("aaa");
-
+    // changeCurrentPage(1);
 
 });
 
@@ -33,9 +33,10 @@ function deleteOne() {
 }
 
 var checkAll = false;
+
 function checkBatch() {
     $("#message_checkbox_all").click(function () {
-        $('input:checkbox[name=message_checkbox]').each(function() {
+        $('input:checkbox[name=message_checkbox]').each(function () {
             $(this).prop("checked", !checkAll)
         });
         checkAll = !checkAll;
@@ -66,4 +67,13 @@ function deleteBatch() {
             }
         }
     });
+}
+
+/**
+ * 修改当前页码，调用后台重新查询
+ */
+function changeCurrentPage(currentPage) {
+    $("#currentPage").val(currentPage);
+    alert("currentPage: " + $("#currentPage").val());
+    $("#mainForm").submit();
 }

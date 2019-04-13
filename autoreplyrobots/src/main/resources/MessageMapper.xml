@@ -6,13 +6,18 @@
 <mapper namespace="com.rc.autoreplyrobots.mapper.MessageMapper">
     <resultMap id="MessageResult" type="com.rc.autoreplyrobots.model.Message">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="command" jdbcType="VARCHAR" property="command" />
+        <result column="command" jdbcType="VARCHAR" property="command"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
     </resultMap>
 
-    <select id="queryMessageList" parameterType="com.rc.autoreplyrobots.model.Message" resultMap="MessageResult">
-        select id, command, description, content from message where 1 = 1
+    <sql id="allColumns">id, command, description, content</sql>
+
+    <select id="queryMessageList" parameterType="com.rc.autoreplyrobots.model.Message"
+            resultMap="MessageResult">
+        select
+        <include refid="allColumns"/>
+        from message where 1 = 1
         <!-- 以下两种写法都是正确的 -->
         <!--<if test="name != null &amp;&amp; !&quot;&quot;.equals(name.trim())">-->
         <if test="command != null  and !''.equals(command.trim())">
@@ -23,15 +28,44 @@
         </if>
     </select>
 
-    <delete id="deleteOne"  parameterType="int">
+    <select id="queryMessageListByPage" parameterType="java.util.Map"
+            resultMap="MessageResult">
+        select
+        <include refid="allColumns"/>
+        from message
+        <where>
+            <if test="message.command != null and !''.equals(message.command.trim())">
+                and command = #{message.command}
+            </if>
+            <if test="message.description != null and !''.equals(message.description.trim())">
+                and description like concat('%', #{message.description}, '%')
+            </if>
+        </where>
+        limit #{page.dbIndex}, #{page.dbNumber}
+    </select>
+
+    <select id="countTotalNumber" parameterType="com.rc.autoreplyrobots.model.Message"
+            resultType="java.lang.Integer">
+        select count(id) from message
+        <where>
+            <if test="command != null and !''.equals(command.trim())">
+                and command = #{command}
+            </if>
+            <if test="description != null and !''.equals(description.trim())">
+                and description like concat('%', #{description}, '%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteOne" parameterType="int">
         delete from message where id = #{_parameter}
     </delete>
-    
+
     <delete id="deleteBatch" parameterType="java.util.List">
         delete from message where id in (
-          <foreach collection="list" item="idItem" separator=",">
+        <foreach collection="list" item="idItem" separator=",">
             #{idItem}
-          </foreach>
+        </foreach>
         )
     </delete>
 </mapper>

@@ -1,13 +1,17 @@
 package com.rc.autoreplyrobots.service;
 
 import com.rc.autoreplyrobots.common.Constant;
+import com.rc.autoreplyrobots.common.Page;
 import com.rc.autoreplyrobots.dao.MessageDao;
 import com.rc.autoreplyrobots.model.Message;
+import sun.util.resources.cldr.agq.CurrencyNames_agq;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName MessageService
@@ -39,7 +43,26 @@ public class MessageService {
      * @return java.util.List<com.rc.autoreplyrobots.model.Message>
      **/
     public List<Message> queryMessageByMybatis(String command, String description) throws IOException {
-        return new MessageDao().queryMessageListByMybatis(command, description);
+        return new MessageDao().queryMessageListByMybatis(new Message(command, description));
+    }
+
+    /*
+     * @Author liux
+     * @Description mybatis方式分页查询消息记录列表,处理查询前的逻辑
+     * @Date 19-4-13 下午1:09
+     * @param null
+     * @return
+     **/
+    public List<Message> queryMessageByPage(String command, String description, Page page) throws IOException {
+        Message message = new Message(command, description);
+
+        MessageDao messageDao = new MessageDao();
+        page = messageDao.configPage(message,page);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", message);
+        map.put("page", page);
+        return messageDao.queryMessageListByPage(map);
     }
 
     /*
@@ -82,7 +105,7 @@ public class MessageService {
     public String queryByCommand(String command) throws IOException {
         MessageDao messageDao = new MessageDao();
         if (Constant.HELP_COMMAND.equals(command)) {
-            List<Message> messages = messageDao.queryMessageListByMybatis(null, null);
+            List<Message> messages = messageDao.queryMessageListByMybatis(new Message());
             StringBuilder builder = new StringBuilder();
 
             for (int i = 0; i < messages.size(); i++) {
@@ -95,7 +118,7 @@ public class MessageService {
             return builder.toString();
         }
 
-        List<Message> messages = messageDao.queryMessageListByMybatis(command, null);
+        List<Message> messages = messageDao.queryMessageListByMybatis(new Message(command, null));
         if (messages.size() > 0) {
             return messages.get(0).getContent();
         }

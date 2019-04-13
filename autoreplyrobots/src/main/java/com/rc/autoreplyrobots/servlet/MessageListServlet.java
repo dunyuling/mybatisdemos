@@ -1,5 +1,6 @@
 package com.rc.autoreplyrobots.servlet;
 
+import com.rc.autoreplyrobots.common.Page;
 import com.rc.autoreplyrobots.model.Message;
 import com.rc.autoreplyrobots.service.MessageService;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @ClassName MessageListServlet
@@ -26,17 +28,31 @@ public class MessageListServlet extends HttpServlet {
         //获取参数
         String command = req.getParameter("command");
         String description = req.getParameter("description");
-        //传递参数
-        req.setAttribute("command", command);
-        req.setAttribute("description", description);
+        String currentPage = req.getParameter("currentPage");
+
+
+        //创建分页对象
+        Page page = new Page();
+        Pattern pattern = Pattern.compile("[0-9]{1,9}");
+        if (currentPage == null || !pattern.matcher(currentPage).matches()) {
+            page.setCurrentPage(1);
+        } else {
+            page.setCurrentPage(Integer.valueOf(currentPage));
+        }
+
 
         //查询
         List<Message> messages = new ArrayList<>();
         try {
-            messages = new MessageService().queryMessageByMybatis(command, description);
+            messages = new MessageService().queryMessageByPage(command, description, page);
+            System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            //传递参数
+            req.setAttribute("command", command);
+            req.setAttribute("description", description);
+            req.setAttribute("page", page);
             req.setAttribute("messages", messages);
         }
         //返回页面

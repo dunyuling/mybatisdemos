@@ -18,4 +18,7 @@ public interface Constant {
     //帮助指令
     public static final String HELP_COMMAND = "帮助";
 
+    //每页显示条数
+    public static final int PAGE_NUMBER = 5;
+
 }

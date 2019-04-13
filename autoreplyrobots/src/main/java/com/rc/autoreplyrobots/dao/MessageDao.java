@@ -1,7 +1,9 @@
 package com.rc.autoreplyrobots.dao;
 
 import com.rc.autoreplyrobots.common.Constant;
+import com.rc.autoreplyrobots.common.Page;
 import com.rc.autoreplyrobots.db.DBAccess;
+import com.rc.autoreplyrobots.mapper.MessageMapper;
 import com.rc.autoreplyrobots.model.Message;
 import org.apache.ibatis.session.SqlSession;
 
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName MessageDao
@@ -73,28 +76,59 @@ public class MessageDao {
      * @param
      * @return java.util.List<com.rc.autoreplyrobots.model.Message>
      **/
-    public List<Message> queryMessageListByMybatis(String command, String description) throws IOException {
+    public List<Message> queryMessageListByMybatis(Message message) throws IOException {
         SqlSession sqlSession = DBAccess.getSqlSession();
 
-        Message message = new Message();
-        message.setCommand(command);
-        message.setDescription(description);
-
-        List<Message> messages = sqlSession.selectList("com.rc.autoreplyrobots.mapper.MessageMapper.queryMessageList",message);
+        List<Message> messages = sqlSession.selectList("com.rc.autoreplyrobots.mapper.MessageMapper.queryMessageList", message);
         sqlSession.close();
         return messages;
     }
-    
+
+    /*
+     * @Author liux
+     * @Description Mybatis方式分页查询消息列表，具体执行
+     * @Date 19-4-13 下午1:16
+     * @param
+     * @return java.util.List<com.rc.autoreplyrobots.model.Message>
+     **/
+    public List<Message> queryMessageListByPage(Map<String, Object> map) throws IOException {
+        SqlSession sqlSession = DBAccess.getSqlSession();
+
+        MessageMapper messageMapper = sqlSession.getMapper(MessageMapper.class);
+        List<Message> messages = messageMapper.queryMessageListByPage(map);
+        sqlSession.close();
+        return messages;
+    }
+
+    /*
+     * @Author liux
+     * @Description 查询message表中总的记录条数，总而初始化Page类对象相关配置
+     * @Date 19-4-13 下午1:22
+     * @param
+     * @return void
+     **/
+    public Page configPage(Message message, Page page) throws IOException {
+        SqlSession sqlSession = DBAccess.getSqlSession();
+
+        MessageMapper messageMapper = sqlSession.getMapper(MessageMapper.class);
+        int totalNumber = messageMapper.countTotalNumber(message);
+        sqlSession.close();
+
+        page.setTotalNumber(totalNumber);
+        page.config();
+        return page;
+    }
+
     /*
      * @Author liux
      * @Description 删除一条信息
      * @Date 19-4-11 上午9:42
-     * @param 
+     * @param
      * @return void
      **/
     public void deleteOne(int id) throws IOException {
         SqlSession sqlSession = DBAccess.getSqlSession();
-        sqlSession.delete("com.rc.autoreplyrobots.mapper.MessageMapper.deleteOne",id);
+        sqlSession.delete("com.rc.autoreplyrobots.mapper.MessageMapper.deleteOne", id);
         //必须提交事务
         sqlSession.commit();
         sqlSession.close();
@@ -109,11 +143,9 @@ public class MessageDao {
      **/
     public void deleteBatch(List<Integer> idList) throws IOException {
         SqlSession sqlSession = DBAccess.getSqlSession();
-        sqlSession.delete("com.rc.autoreplyrobots.mapper.MessageMapper.deleteBatch",idList);
+        sqlSession.delete("com.rc.autoreplyrobots.mapper.MessageMapper.deleteBatch", idList);
         //必须提交事务
         sqlSession.commit();
         sqlSession.close();
     }
-    
-
 }

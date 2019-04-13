@@ -15,11 +15,22 @@ CREATE TABLE `message` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-insert into message values(1, 'a', 'a desc', 'a content');
-insert into message values(2, 'b', 'b desc', 'b content');
-insert into message values(3, 'c', 'c desc', 'c content');
-insert into message values(4, 'd', 'd desc', 'd content');
-insert into message values(5, 'e', 'e desc', 'e content');
+insert into message values(1,'a','a desc','a content');
+insert into message values(2,'b','b desc','b content');
+insert into message values(3,'c','c desc','c content');
+insert into message values(4,'d','d desc','d content');
+insert into message values(5,'e','e desc','e content');
+insert into message values(6,'f','f desc','f content');
+insert into message values(7,'g','g desc','g content');
+insert into message values(8,'h','h desc','h content');
+insert into message values(9,'i','i desc','i content');
+insert into message values(10,'j','j desc','j content');
+insert into message values(11,'k','k desc','k content');
+insert into message values(12,'l','l desc','l content');
+insert into message values(13,'m','m desc','m content');
+insert into message values(14,'n','n desc','n content');
+insert into message values(15,'o','o desc','o content');
+insert into message values(16,'p','p desc','p content');
 
 
 #为了解决一个命令有多个对应内容的情况，将message表拆分为command表和content表
