@@ -115,8 +115,23 @@ public class MessageDao {
         sqlSession.close();
 
         page.setTotalNumber(totalNumber);
-        page.config();
         return page;
+    }
+
+    /*
+     * @Author liux
+     * @Description Mybatis方式分页查询消息列表，具体执行--拦截器版
+     * @Date 19-4-15 下午2:17
+     * @param map
+     * @return java.util.List<com.rc.autoreplyrobots.model.Message>
+     **/
+    public List<Message> queryMessageListByPage2(Map<String, Object> map) throws IOException {
+        SqlSession sqlSession = DBAccess.getSqlSession();
+
+        MessageMapper messageMapper = sqlSession.getMapper(MessageMapper.class);
+        List<Message> messages = messageMapper.queryMessageListByPage2(map);
+        sqlSession.close();
+        return messages;
     }
 
     /*

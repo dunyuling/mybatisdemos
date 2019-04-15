@@ -41,7 +41,7 @@
                 and description like concat('%', #{message.description}, '%')
             </if>
         </where>
-        limit #{page.dbIndex}, #{page.dbNumber}
+        order by id limit #{page.dbIndex}, #{page.dbNumber}
     </select>
 
     <select id="countTotalNumber" parameterType="com.rc.autoreplyrobots.model.Message"
@@ -56,6 +56,25 @@
             </if>
         </where>
     </select>
+
+
+    <select id="queryMessageListByPage2" parameterType="java.util.Map"
+            resultMap="MessageResult">
+        select
+        <include refid="allColumns"/>
+        from message
+        <where>
+            <if test="message.command != null and !''.equals(message.command.trim())">
+                and command = #{message.command}
+            </if>
+            <if test="message.description != null and !''.equals(message.description.trim())">
+                and description like concat('%', #{message.description}, '%')
+            </if>
+        </where>
+        order by id
+    </select>
+
+
 
     <delete id="deleteOne" parameterType="int">
         delete from message where id = #{_parameter}

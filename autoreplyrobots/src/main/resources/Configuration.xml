@@ -33,6 +33,10 @@
 
     </typeAliases>
 
+    <plugins>
+        <plugin interceptor="com.rc.autoreplyrobots.intercepter.PageInterceptor"/>
+    </plugins>
+
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC">

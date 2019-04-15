@@ -32,7 +32,7 @@ public class Page {
      * @param
      * @return void
      **/
-    public void config() {
+    private void config() {
         //计算总页数
         int totalPageTemp = this.totalNumber / this.pageNumber;
         int plus = (this.totalNumber % this.pageNumber) == 0 ? 0 : 1;
@@ -64,6 +64,7 @@ public class Page {
 
     public void setTotalNumber(int totalNumber) {
         this.totalNumber = totalNumber;
+        config();
     }
 
     public int getCurrentPage() {

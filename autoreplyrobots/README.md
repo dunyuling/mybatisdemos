@@ -127,6 +127,12 @@
         * com.rc.autoreplyrobots.test 为从课程下载的源码
         * com.rc.autoreplyrobots.dynamicproxytest为自己的实现
         
+##分页功能
+    + 强大的统一分页功能见 com.rc.autoreplyrobots.intercepter.PageInterceptor 
+        * 约定大约配置，对于分页方法的约定，此处为以ByPage2结尾
+        * 反射封装类的应用SystemMetaObject
+        * ognl查找方式的应用此处如delegate.mappedStatement和delegate.boundSql.sql
+        
            
     
                                                                         

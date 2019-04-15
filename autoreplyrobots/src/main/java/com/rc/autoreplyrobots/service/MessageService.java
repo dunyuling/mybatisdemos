@@ -65,6 +65,24 @@ public class MessageService {
         return messageDao.queryMessageListByPage(map);
     }
 
+
+    /*
+     * @Author liux
+     * @Description Mybatis方式查询消息列表,处理查询前的逻辑--拦截器版
+     * @Date 19-4-15 下午2:15
+     * @param command
+     * @param description
+     * @param page
+     * @return java.util.List<com.rc.autoreplyrobots.model.Message>
+     **/
+    public List<Message> queryMessageByPage2(String command, String description, Page page) throws IOException {
+        Message message = new Message(command, description);
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", message);
+        map.put("page", page);
+        return new MessageDao().queryMessageListByPage2(map);
+    }
+
     /*
      * @Author liux
      * @Description Mybatis方式删除一条消息,删除前的逻辑处理

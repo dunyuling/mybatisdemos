@@ -44,7 +44,7 @@ public class MessageListServlet extends HttpServlet {
         //查询
         List<Message> messages = new ArrayList<>();
         try {
-            messages = new MessageService().queryMessageByPage(command, description, page);
+            messages = new MessageService().queryMessageByPage2(command, description, page);
             System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
